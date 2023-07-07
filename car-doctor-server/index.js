@@ -83,6 +83,33 @@ async function run() {
 
     })
 
+    // bookings delete FROM MONGO 
+    app.get('/bookings/:id',async(req,res)=>{
+      const id = req.params.id 
+      const query = {_id : new ObjectId(id)}
+      const result = await bookingCollection.deleteOne(query)
+      res.send(result)
+
+    })
+ 
+    // bookings update 
+    app.put('/bookings/:id' , async(req,res) => {
+      const updatedBooking = req.body 
+      const id = req.params.id
+      const filter = {_id : new ObjectId(id)}
+      // const query = {upsert : true} [ no need this line]
+      const updateDoc = {
+        $set : {
+          staus :updatedBooking.staus
+        }
+      }
+
+      const result = await bookingCollection.updateOne(filter , updateDoc)
+      res.send(result) 
+
+
+    })
+
 
 
 
